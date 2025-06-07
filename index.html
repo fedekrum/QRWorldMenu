@@ -614,10 +614,21 @@
           modal.classList.add("flex");
         });
 
-        document.getElementById("modal-close-button").onclick = () => {
+        function closeModal() {
           modal.classList.add("hidden");
           modal.classList.remove("flex");
-        };
+        }
+
+        document
+          .getElementById("modal-close-button")
+          .addEventListener("click", closeModal);
+
+        const modalContent = modal.querySelector("div");
+        modal.addEventListener("click", (e) => {
+          if (!modalContent.contains(e.target)) {
+            closeModal();
+          }
+        });
       });
     </script>
   </body>
