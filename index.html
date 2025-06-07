@@ -193,10 +193,10 @@
                 class="uppercase flex items-center space-x-1 flex-shrink-0 whitespace-nowrap bg-black bg-opacity-50 text-white text-[10px] px-2 py-1 rounded-full"
               >
                 <img
-                  src="assets/icons/celiacos.png"
-                  alt="Celiacos"
+                  src="assets/icons/new.png"
+                  alt="Nuevo"
                   class="w-5 h-5"
-                /><span>CELÍACOS</span>
+                /><span>NUEVO</span>
               </a>
               <a
                 href="#"
@@ -619,15 +619,27 @@
           modal.classList.remove("flex");
         }
 
+        // Close modal with Escape key
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+            closeModal();
+          }
+        });
+
         document
           .getElementById("modal-close-button")
           .addEventListener("click", closeModal);
 
-        modal.addEventListener("click", (e) => {
-          if (e.target === modal) {
-            closeModal();
-          }
-        });
+        const modalContent = modal.querySelector("div"); // Selects the modal content
+
+        ["mousedown", "touchstart"].forEach((evt) =>
+          modal.addEventListener(evt, function (e) {
+            // If the click/tap is outside modal content, close
+            if (!modalContent.contains(e.target)) {
+              closeModal();
+            }
+          })
+        );
       });
     </script>
   </body>
