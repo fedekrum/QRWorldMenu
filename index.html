@@ -9,6 +9,17 @@
     />
     <!-- Tailwind CSS desde CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              gold: '#d4af37',
+            },
+          },
+        },
+      }
+    </script>
     <style>
       .text-gold {
         color: #d4af37;
@@ -23,45 +34,16 @@
           #111111 100%
         );
       }
-      .triangle-right,
-      .triangle-left {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 0;
-        height: 0;
-        cursor: pointer;
-        z-index: 10;
-      }
-      .triangle-right {
-        right: 0;
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-        border-left: 12px solid rgba(255, 255, 255, 0.8);
-      }
-      .triangle-left {
-        left: 0;
-        border-top: 12px solid transparent;
-        border-bottom: 12px solid transparent;
-        border-right: 12px solid rgba(255, 255, 255, 0.8);
-      }
-      .active-indicator.triangle-right {
-        border-left-color: #fff;
-      }
-      .active-indicator.triangle-left {
-        border-right-color: #fff;
-      }
-      .hidden-indicator {
-        display: none;
-      }
-      /* Oculta scrollbar en tags e icons */
+      /* Oculta scrollbar en tags, icons y drinks */
       #tags-container,
-      #icons-container {
+      #icons-container,
+      #drinks-container {
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
       #tags-container::-webkit-scrollbar,
-      #icons-container::-webkit-scrollbar {
+      #icons-container::-webkit-scrollbar,
+      #drinks-container::-webkit-scrollbar {
         display: none;
       }
       html,
@@ -88,7 +70,6 @@
         ></div>
         <div class="absolute inset-x-0 top-1/2 h-1/2 gradient-bottom"></div>
 
-        <!-- Flecha de regreso -->
         <a
           href="index.html"
           class="absolute top-4 left-4 text-white text-2xl"
@@ -103,7 +84,6 @@
         </h1>
 
         <div class="absolute top-16 inset-x-4 flex flex-col space-y-3">
-          <!-- Menú principal -->
           <div class="relative w-1/2 mx-auto">
             <select
               class="capitalize w-full bg-transparent border border-white text-white text-sm py-2 pl-4 pr-10 rounded-full appearance-none focus:outline-none"
@@ -119,16 +99,14 @@
             >
           </div>
 
-          <!-- Categorías & tags -->
           <p class="text-white text-sm font-semibold pt-1">
             Categorías &amp; tags
           </p>
 
-          <!-- Tags principales -->
           <div class="relative">
             <div
               id="indicator-left-tags"
-              class="triangle-left hidden-indicator"
+              class="absolute left-0 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[12px] border-y-transparent border-r-[12px] border-r-white/80 cursor-pointer hidden-indicator"
             ></div>
             <div
               id="tags-container"
@@ -173,15 +151,14 @@
             </div>
             <div
               id="indicator-right-tags"
-              class="triangle-right hidden-indicator"
+              class="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[12px] border-y-transparent border-l-[12px] border-l-white/80 cursor-pointer hidden-indicator"
             ></div>
           </div>
 
-          <!-- Tags de iconos -->
           <div class="relative">
             <div
               id="indicator-left-icons"
-              class="triangle-left hidden-indicator"
+              class="absolute left-0 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[12px] border-y-transparent border-r-[12px] border-r-white/80 cursor-pointer hidden-indicator"
             ></div>
             <div
               id="icons-container"
@@ -241,11 +218,24 @@
             </div>
             <div
               id="indicator-right-icons"
-              class="triangle-right hidden-indicator"
+              class="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[12px] border-y-transparent border-l-[12px] border-l-white/80 cursor-pointer hidden-indicator"
             ></div>
           </div>
         </div>
       </header>
+
+      <!-- Novedades (ahora justo después del header) -->
+      <h2 class="text-center text-[20px] font-semibold uppercase text-[#FFA500] mt-8 mb-2">NOVEDADES</h2>
+      <div class="w-[90%] mx-auto mb-6">
+        <div class="bg-white rounded-xl shadow-lg flex flex-col items-center justify-center w-full overflow-hidden">
+          <img src="assets/pictures/empanadas.png" alt="Empanadas argentinas" class="w-full h-auto object-contain object-center" />
+          <div class="flex flex-col items-center justify-center w-full px-4 py-4">
+            <p class="uppercase text-[18px] font-bold text-center mt-2 mb-1">EMPANADAS ARGENTINAS</p>
+            <p class="text-center text-gray-700 mb-1 text-sm">¡Vienen acompañadas de auténtico chimichurri casero para que disfrutes el verdadero sabor argentino!</p>
+            <p class="text-gold text-3xl font-extrabold text-center">2 por 8&nbsp;€</p>
+          </div>
+        </div>
+      </div>
 
       <!-- Sección Hamburguesas -->
       <hr class="border-gray-600 my-4" />
@@ -255,7 +245,6 @@
         HAMBURGUESAS
       </h2>
 
-      <!-- BURGER ST. ANTHONY'S -->
       <div
         class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
         data-title="BURGER ST. ANTHONY'S"
@@ -281,7 +270,6 @@
         </div>
       </div>
 
-      <!-- LA PORKIS -->
       <div
         class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
         data-title="LA PORKIS"
@@ -307,7 +295,6 @@
         </div>
       </div>
 
-      <!-- LA PARISINA -->
       <div
         class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
         data-title="LA PARISINA"
@@ -333,11 +320,10 @@
         </div>
       </div>
 
-      <!-- LA AMERICANA -->
       <div
         class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
         data-title="LA AMERICANA"
-        data-desc="Doble medallón, queso cheddar, bacón, cebolla caramelizada, salsa BBQ."
+        data-desc="Doble medallión, queso cheddar, bacón, cebolla caramelizada, salsa BBQ."
         data-price="€ 13,95"
         data-img="assets/pictures/la_americana.png"
         data-tags="ENTRANTES"
@@ -345,7 +331,7 @@
         <div class="w-3/5 p-4">
           <p class="uppercase text-[12px] font-bold mb-2">LA AMERICANA</p>
           <p class="text-sm mb-2">
-            Doble medallón, queso cheddar, bacón, cebolla caramelizada, salsa
+            Doble medallión, queso cheddar, bacón, cebolla caramelizada, salsa
             BBQ.
           </p>
           <p class="text-gold font-semibold text-lg mb-2">€ 13,95</p>
@@ -360,7 +346,6 @@
         </div>
       </div>
 
-      <!-- CRISPY CHICKEN -->
       <div
         class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
         data-title="CRISPY CHICKEN"
@@ -386,7 +371,6 @@
         </div>
       </div>
 
-      <!-- LA VEGGIE -->
       <div
         class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
         data-title="LA VEGGIE"
@@ -420,7 +404,6 @@
         CARNE Y PESCADO
       </h2>
 
-      <!-- ENTRECOT IRLANDÉS -->
       <div
         class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
         data-title="ENTRECOT IRLANDÉS"
@@ -446,10 +429,9 @@
         </div>
       </div>
 
-      <!-- ENTRECOT ST’ANTHONY'S -->
       <div
         class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
-        data-title="ENTRECOT ST’ANTHONY'S"
+        data-title="ENTRECOT ST'ANTHONY'S"
         data-desc="Entrecot de Angus (250-300 g), rúcula, Grana Padano y cherry. Con patatas fritas."
         data-price="€ 23,90"
         data-img="assets/pictures/entrecot_st_anthonys.png"
@@ -457,7 +439,7 @@
       >
         <div class="w-3/5 p-4">
           <p class="uppercase text-[12px] font-bold mb-2">
-            ENTRECOT ST’ANTHONY'S
+            ENTRECOT ST'ANTHONY'S
           </p>
           <p class="text-sm mb-2">
             Entrecot de Angus (250-300 g), rúcula, Grana Padano y cherry. Con
@@ -469,13 +451,12 @@
         <div class="w-2/5 bg-[#111111] min-w-0">
           <img
             src="assets/pictures/entrecot_st_anthonys.png"
-            alt="St’Anthony"
+            alt="St'Anthony"
             class="block object-cover h-full w-full relative left-[1px]"
           />
         </div>
       </div>
 
-      <!-- FISH AND CHIPS -->
       <div
         class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
         data-title="FISH AND CHIPS"
@@ -484,10 +465,10 @@
         data-img="assets/pictures/fish_and_chips.png"
         data-tags="PRINCIPALES"
       >
-        <div class="w-3/5 p-4">
-          <p class="uppercase text-[12px] font-bold mb-2">FISH AND CHIPS</p>
-          <p class="text-sm mb-2">Bacalao rebozado con patatas.</p>
-          <p class="text-gold font-semibold text-lg mb-2">€ 14,95</p>
+        <div class="w-3/5 p-4 flex flex-col justify-center">
+          <p class="uppercase text-[12px] font-bold mb-1">FISH AND CHIPS</p>
+          <p class="text-sm mb-3">Bacalao rebozado con patatas.</p>
+          <p class="text-gold font-semibold text-lg mb-1">€ 14,95</p>
           <p class="uppercase text-sm text-gray-600">+INFO</p>
         </div>
         <div class="w-2/5 bg-[#111111] min-w-0">
@@ -496,6 +477,129 @@
             alt="Fish"
             class="block object-cover h-full w-full relative left-[1px]"
           />
+        </div>
+      </div>
+
+      <!-- Sección Tragos -->
+      <h2
+        class="text-center text-[20px] font-semibold uppercase text-[#FFA500] mt-8"
+      >
+        TRAGOS
+      </h2>
+      <div class="relative w-full flex justify-center mt-4">
+        <div id="indicator-left-drinks" class="absolute left-1 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[12px] border-y-transparent border-r-[12px] border-r-white/80 cursor-pointer opacity-20"></div>
+        <div id="indicator-right-drinks" class="absolute right-1 top-1/2 -translate-y-1/2 w-0 h-0 border-y-[12px] border-y-transparent border-l-[12px] border-l-white/80 cursor-pointer opacity-20"></div>
+        <div class="w-[90%] mx-auto">
+          <div
+            id="drinks-container"
+            class="flex overflow-x-auto px-0 py-2 gap-x-1 snap-x snap-mandatory"
+            style="scroll-behavior: smooth"
+          >
+            <div
+              class="bg-white rounded-xl w-[calc(50%-2px)] flex-shrink-0 flex flex-col overflow-hidden shadow-lg cursor-pointer snap-start"
+              data-title="MOJITO"
+              data-desc="Ron blanco, hierbabuena, lima y soda. Es muy bueno para la caida del pelo en verano y previene la caida del pelo en invierno."
+              data-price="€ 8,50"
+              data-img="assets/pictures/mojito.png"
+              data-tags="BEBIDAS"
+            >
+              <div class="w-full h-52 bg-[#111111]">
+                <img
+                  src="assets/pictures/mojito.png"
+                  alt="Mojito"
+                  class="object-cover w-full h-full"
+                />
+              </div>
+              <div class="flex flex-col justify-between h-full flex-1">
+                <div class="pt-2 px-2">
+                  <p class="uppercase text-[12px] font-bold mb-1 text-center">MOJITO</p>
+                  <p class="text-sm mb-2">Ron blanco, hierbabuena, lima y soda. Es muy bueno para la caida del pelo en verano y previene la caida del pelo en invierno.</p>
+                </div>
+                <div class="flex flex-col items-center mb-2">
+                  <p class="text-gold font-semibold text-lg mb-1">€ 8,50</p>
+                  <p class="uppercase text-sm text-gray-600">+INFO</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-xl w-[calc(50%-2px)] flex-shrink-0 flex flex-col overflow-hidden shadow-lg cursor-pointer snap-start"
+              data-title="MARGARITA"
+              data-desc="Tequila, triple sec, limón y sal."
+              data-price="€ 9,00"
+              data-img="assets/pictures/margarita.png"
+              data-tags="BEBIDAS"
+            >
+              <div class="w-full h-52 bg-[#111111]">
+                <img
+                  src="assets/pictures/margarita.png"
+                  alt="Margarita"
+                  class="object-cover w-full h-full"
+                />
+              </div>
+              <div class="flex flex-col justify-between h-full flex-1">
+                <div class="pt-2 px-2">
+                  <p class="uppercase text-[12px] font-bold mb-1 text-center">MARGARITA</p>
+                  <p class="text-sm mb-2">Tequila, triple sec, limón y sal.</p>
+                </div>
+                <div class="flex flex-col items-center mb-2">
+                  <p class="text-gold font-semibold text-lg mb-1">€ 9,00</p>
+                  <p class="uppercase text-sm text-gray-600">+INFO</p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="bg-white rounded-xl w-[calc(50%-2px)] flex-shrink-0 flex flex-col overflow-hidden shadow-lg cursor-pointer snap-start"
+              data-title="CAIPIRIÑA"
+              data-desc="Cachaça, lima, azúcar y hielo."
+              data-price="€ 8,75"
+              data-img="assets/pictures/caipirina.png"
+              data-tags="BEBIDAS"
+            >
+              <div class="w-full h-52 bg-[#111111]">
+                <img
+                  src="assets/pictures/caipirina.png"
+                  alt="Caipiriña"
+                  class="object-cover w-full h-full"
+                />
+              </div>
+              <div class="flex flex-col justify-between h-full flex-1">
+                <div class="pt-2 px-2">
+                  <p class="uppercase text-[12px] font-bold mb-1 text-center">CAIPIRIÑA</p>
+                  <p class="text-sm mb-2">Cachaça, lima, azúcar y hielo.</p>
+                </div>
+                <div class="flex flex-col items-center mb-2">
+                  <p class="text-gold font-semibold text-lg mb-1">€ 8,75</p>
+                  <p class="uppercase text-sm text-gray-600">+INFO</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección Vinos -->
+      <h2 class="text-center text-[20px] font-semibold uppercase text-[#FFA500] mt-8 mb-2">VINOS</h2>
+      <div class="w-[90%] mx-auto flex flex-col gap-3 mb-8">
+        <div class="bg-white rounded-xl flex items-center justify-between px-4 py-3 shadow-lg">
+          <div>
+            <p class="font-bold text-base uppercase">Malbec Reserva</p>
+            <p class="text-xs text-gray-500">Bodega Norton · 750ml</p>
+          </div>
+          <div class="text-gold font-bold text-lg">€ 18,00</div>
+        </div>
+        <div class="bg-white rounded-xl flex items-center justify-between px-4 py-3 shadow-lg">
+          <div>
+            <p class="font-bold text-base uppercase">Verdejo</p>
+            <p class="text-xs text-gray-500">Bodega Protos · 750ml</p>
+          </div>
+          <div class="text-gold font-bold text-lg">€ 15,00</div>
+        </div>
+        <div class="bg-white rounded-xl flex items-center justify-between px-4 py-3 shadow-lg">
+          <div>
+            <p class="font-bold text-base uppercase">Rioja Crianza</p>
+            <p class="text-xs text-gray-500">Bodega Marqués · 750ml</p>
+          </div>
+          <div class="text-gold font-bold text-lg">€ 17,00</div>
         </div>
       </div>
     </div>
@@ -508,7 +612,6 @@
       <div
         class="w-[90%] max-w-[640px] rounded-xl overflow-hidden relative border-2 border-gray-500"
       >
-        <!-- Imagen ampliada -->
         <div class="w-full h-[240px] relative">
           <img
             id="modal-img"
@@ -524,7 +627,6 @@
             &times;
           </button>
         </div>
-        <!-- Texto -->
         <div class="bg-[#111111] p-6 text-white">
           <h3
             id="modal-title"
@@ -547,97 +649,100 @@
         const price = document.getElementById("modal-price");
         const tagsContainer = document.getElementById("modal-tags");
 
-        function updateIndicators(container, leftInd, rightInd) {
+        function updateIndicators(container, left, right) {
+          // Todos los triángulos usan opacity-20 para inactivo
           if (container.scrollLeft > 0) {
-            leftInd.classList.remove("hidden-indicator");
-            leftInd.classList.add("active-indicator");
+            left.classList.remove("opacity-20");
           } else {
-            leftInd.classList.add("hidden-indicator");
+            left.classList.add("opacity-20");
           }
           if (
             container.scrollLeft + container.clientWidth >=
             container.scrollWidth
           ) {
-            rightInd.classList.add("hidden-indicator");
+            right.classList.add("opacity-20");
           } else {
-            rightInd.classList.remove("hidden-indicator");
-            rightInd.classList.add("active-indicator");
+            right.classList.remove("opacity-20");
           }
         }
 
-        const tagsContainerEl = document.getElementById("tags-container");
-        const iconsContainerEl = document.getElementById("icons-container");
-        const leftTags = document.getElementById("indicator-left-tags");
-        const rightTags = document.getElementById("indicator-right-tags");
-        const leftIcons = document.getElementById("indicator-left-icons");
-        const rightIcons = document.getElementById("indicator-right-icons");
-
-        [tagsContainerEl, iconsContainerEl].forEach((container, idx) => {
-          const left = idx === 0 ? leftTags : leftIcons;
-          const right = idx === 0 ? rightTags : rightIcons;
-          container.addEventListener("scroll", () =>
-            updateIndicators(container, left, right)
-          );
-          updateIndicators(container, left, right);
+        // Tags/icons indicators
+        const tc = document.getElementById("tags-container");
+        const ic = document.getElementById("icons-container");
+        const lt = document.getElementById("indicator-left-tags");
+        const rt = document.getElementById("indicator-right-tags");
+        const li = document.getElementById("indicator-left-icons");
+        const ri = document.getElementById("indicator-right-icons");
+        [tc, ic].forEach((c, i) => {
+          const l = i === 0 ? lt : li;
+          const r = i === 0 ? rt : ri;
+          c.addEventListener("scroll", () => updateIndicators(c, l, r));
+          updateIndicators(c, l, r);
         });
-        leftTags.addEventListener("click", () =>
-          tagsContainerEl.scrollBy({ left: -100, behavior: "smooth" })
+        lt.addEventListener("click", () =>
+          tc.scrollBy({ left: -100, behavior: "smooth" })
         );
-        rightTags.addEventListener("click", () =>
-          tagsContainerEl.scrollBy({ left: 100, behavior: "smooth" })
+        rt.addEventListener("click", () =>
+          tc.scrollBy({ left: 100, behavior: "smooth" })
         );
-        leftIcons.addEventListener("click", () =>
-          iconsContainerEl.scrollBy({ left: -100, behavior: "smooth" })
+        li.addEventListener("click", () =>
+          ic.scrollBy({ left: -100, behavior: "smooth" })
         );
-        rightIcons.addEventListener("click", () =>
-          iconsContainerEl.scrollBy({ left: 100, behavior: "smooth" })
+        ri.addEventListener("click", () =>
+          ic.scrollBy({ left: 100, behavior: "smooth" })
         );
 
-        const menu = document.getElementById("menu-container");
-        menu.addEventListener("click", (e) => {
-          const card = e.target.closest("[data-title]");
-          if (!card) return;
-          img.src = card.dataset.img;
-          img.alt = card.dataset.title;
-          title.textContent = card.dataset.title;
-          desc.textContent = card.dataset.desc;
-          price.textContent = card.dataset.price;
-          tagsContainer.innerHTML = "";
-          card.dataset.tags.split(",").forEach((t) => {
-            const span = document.createElement("span");
-            span.className =
-              "uppercase bg-white bg-opacity-70 text-black text-[10px] px-3 py-1 rounded-full";
-            span.textContent = t;
-            tagsContainer.appendChild(span);
+        // Drinks indicators
+        const dc = document.getElementById("drinks-container");
+        const ldr = document.getElementById("indicator-left-drinks");
+        const rdr = document.getElementById("indicator-right-drinks");
+        dc.addEventListener("scroll", () => updateIndicators(dc, ldr, rdr));
+        updateIndicators(dc, ldr, rdr);
+        ldr.addEventListener("click", () =>
+          dc.scrollBy({ left: -100, behavior: "smooth" })
+        );
+        rdr.addEventListener("click", () =>
+          dc.scrollBy({ left: 100, behavior: "smooth" })
+        );
+
+        // Modal open
+        document
+          .getElementById("menu-container")
+          .addEventListener("click", (e) => {
+            const card = e.target.closest("[data-title]");
+            if (!card) return;
+            img.src = card.dataset.img;
+            img.alt = card.dataset.title;
+            title.textContent = card.dataset.title;
+            desc.textContent = card.dataset.desc;
+            price.textContent = card.dataset.price;
+            tagsContainer.innerHTML = "";
+            card.dataset.tags.split(",").forEach((t) => {
+              const span = document.createElement("span");
+              span.className =
+                "uppercase bg-white bg-opacity-70 text-black text-[10px] px-3 py-1 rounded-full";
+              span.textContent = t;
+              tagsContainer.appendChild(span);
+            });
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
           });
-          modal.classList.remove("hidden");
-          modal.classList.add("flex");
-        });
 
         function closeModal() {
           modal.classList.add("hidden");
           modal.classList.remove("flex");
         }
-
-        // Close modal with Escape key
-        document.addEventListener("keydown", function (e) {
-          if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && !modal.classList.contains("hidden"))
             closeModal();
-          }
         });
-
         document
           .getElementById("modal-close-button")
           .addEventListener("click", closeModal);
-
-        const modalContent = modal.querySelector("div"); // Selects the modal content
-
+        const modalContent = modal.querySelector("div");
         ["mousedown", "touchstart"].forEach((evt) =>
-          modal.addEventListener(evt, function (e) {
-            // If the click/tap is outside modal content, close
-            if (!modalContent.contains(e.target)) {
-              closeModal();
-            }
+          modal.addEventListener(evt, (e) => {
+            if (!modalContent.contains(e.target)) closeModal();
           })
         );
       });
