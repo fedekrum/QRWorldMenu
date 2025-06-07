@@ -1,90 +1,623 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Rock&amp;Feller's Menu</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header class="mobile-header">
-        <div class="logo-container">
-            <a class="back" href="#"><i class="fa fa-arrow-left"></i></a>
-            <img class="logo" src="logo_rf_dorado.png" alt="Logo de Rock & Feller's">
-        </div>
-        <div class="header-background-container">
-            <img class="header-background" src="header_background.png" alt="">
-            <div class="blurred"></div>
-        </div>
-    </header>
-    <main class="menu container">
-        <div class="menu-type-selector-container">
-            <select name="menu-selector" class="menu-type-selector">
-                <option selected>Restaurante</option>
-                <option>Cafetería</option>
-                <option>Vinos y Espumantes</option>
-                <option>Cocktails</option>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Evita el zoom por doble toque -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <!-- Tailwind CSS desde CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .text-gold {
+        color: #d4af37;
+      }
+      .grayscale {
+        filter: grayscale(100%);
+      }
+      .gradient-bottom {
+        background: linear-gradient(
+          to bottom,
+          rgba(0, 0, 0, 0) 50%,
+          #111111 100%
+        );
+      }
+      .triangle-right,
+      .triangle-left {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        cursor: pointer;
+        z-index: 10;
+      }
+      .triangle-right {
+        right: 0;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-left: 12px solid rgba(255, 255, 255, 0.8);
+      }
+      .triangle-left {
+        left: 0;
+        border-top: 12px solid transparent;
+        border-bottom: 12px solid transparent;
+        border-right: 12px solid rgba(255, 255, 255, 0.8);
+      }
+      .active-indicator.triangle-right {
+        border-left-color: #fff;
+      }
+      .active-indicator.triangle-left {
+        border-right-color: #fff;
+      }
+      .hidden-indicator {
+        display: none;
+      }
+      /* Oculta scrollbar en tags e icons */
+      #tags-container,
+      #icons-container {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      #tags-container::-webkit-scrollbar,
+      #icons-container::-webkit-scrollbar {
+        display: none;
+      }
+      html,
+      body {
+        touch-action: pan-x pan-y;
+      }
+      .modal-backdrop {
+        background-color: rgba(0, 0, 0, 1);
+      }
+    </style>
+  </head>
+
+  <body class="bg-[#111111] flex justify-center">
+    <div class="w-full max-w-[640px] min-w-[375px] pb-8">
+      <!-- Encabezado -->
+      <header class="relative w-full h-[224px]">
+        <div
+          class="absolute inset-0 bg-cover bg-center grayscale"
+          style="background-image: url('assets/pictures/menu.png')"
+        ></div>
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div
+          class="absolute inset-x-0 top-0 h-[60px] bg-black bg-opacity-50"
+        ></div>
+        <div class="absolute inset-x-0 top-1/2 h-1/2 gradient-bottom"></div>
+
+        <!-- Flecha de regreso -->
+        <a
+          href="index.html"
+          class="absolute top-4 left-4 text-white text-2xl"
+          aria-label="Volver al inicio"
+          >&#8592;</a
+        >
+        <h1
+          class="absolute top-4 inset-x-0 text-center text-gold font-semibold uppercase"
+          style="font-size: 30px; line-height: 1; letter-spacing: 0.5px"
+        >
+          St. Anthony's
+        </h1>
+
+        <div class="absolute top-16 inset-x-4 flex flex-col space-y-3">
+          <!-- Menú principal -->
+          <div class="relative w-1/2 mx-auto">
+            <select
+              class="capitalize w-full bg-transparent border border-white text-white text-sm py-2 pl-4 pr-10 rounded-full appearance-none focus:outline-none"
+            >
+              <option value="tapeo" selected>Tapeo</option>
+              <option value="cocina">Cocina</option>
+              <option value="bebidas">Bebidas</option>
+              <option value="grupos">Menú para Grupos</option>
             </select>
+            <span
+              class="pointer-events-none absolute inset-y-0 right-3 flex items-center text-white text-xs"
+              >&#x25BC;</span
+            >
+          </div>
+
+          <!-- Categorías & tags -->
+          <p class="text-white text-sm font-semibold pt-1">
+            Categorías &amp; tags
+          </p>
+
+          <!-- Tags principales -->
+          <div class="relative">
+            <div
+              id="indicator-left-tags"
+              class="triangle-left hidden-indicator"
+            ></div>
+            <div
+              id="tags-container"
+              class="flex space-x-2 overflow-x-auto ml-6 mr-6 py-1"
+              style="scroll-behavior: smooth"
+            >
+              <a
+                href="#"
+                class="uppercase flex-shrink-0 whitespace-nowrap bg-white bg-opacity-70 border border-white text-black text-[10px] px-2 py-1 rounded-full"
+                >ENTRANTES</a
+              >
+              <a
+                href="#"
+                class="uppercase flex-shrink-0 whitespace-nowrap bg-white bg-opacity-70 border border-white text-black text-[10px] px-2 py-1 rounded-full"
+                >PRINCIPALES</a
+              >
+              <a
+                href="#"
+                class="uppercase flex-shrink-0 whitespace-nowrap bg-white bg-opacity-70 border border-white text-black text-[10px] px-2 py-1 rounded-full"
+                >INFANTIL</a
+              >
+              <a
+                href="#"
+                class="uppercase flex-shrink-0 whitespace-nowrap bg-white bg-opacity-70 border border-white text-black text-[10px] px-2 py-1 rounded-full"
+                >BOCADILLOS</a
+              >
+              <a
+                href="#"
+                class="uppercase flex-shrink-0 whitespace-nowrap bg-white bg-opacity-70 border border-white text-black text-[10px] px-2 py-1 rounded-full"
+                >POSTRES</a
+              >
+              <a
+                href="#"
+                class="uppercase flex-shrink-0 whitespace-nowrap bg-white bg-opacity-70 border border-white text-black text-[10px] px-2 py-1 rounded-full"
+                >OFERTAS</a
+              >
+              <a
+                href="#"
+                class="uppercase flex-shrink-0 whitespace-nowrap bg-white bg-opacity-70 border border-white text-black text-[10px] px-2 py-1 rounded-full"
+                >NUEVOS</a
+              >
+            </div>
+            <div
+              id="indicator-right-tags"
+              class="triangle-right hidden-indicator"
+            ></div>
+          </div>
+
+          <!-- Tags de iconos -->
+          <div class="relative">
+            <div
+              id="indicator-left-icons"
+              class="triangle-left hidden-indicator"
+            ></div>
+            <div
+              id="icons-container"
+              class="flex space-x-2 overflow-x-auto ml-6 mr-6 py-1"
+              style="scroll-behavior: smooth"
+            >
+              <a
+                href="#"
+                class="uppercase flex items-center space-x-1 flex-shrink-0 whitespace-nowrap bg-black bg-opacity-50 text-white text-[10px] px-2 py-1 rounded-full"
+              >
+                <img
+                  src="assets/icons/celiacos.png"
+                  alt="Celiacos"
+                  class="w-5 h-5"
+                /><span>CELÍACOS</span>
+              </a>
+              <a
+                href="#"
+                class="uppercase flex items-center space-x-1 flex-shrink-0 whitespace-nowrap bg-black bg-opacity-50 text-white text-[10px] px-2 py-1 rounded-full"
+              >
+                <img
+                  src="assets/icons/veganos.png"
+                  alt="Veganos"
+                  class="w-5 h-5"
+                /><span>VEGANOS</span>
+              </a>
+              <a
+                href="#"
+                class="uppercase flex items-center space-x-1 flex-shrink-0 whitespace-nowrap bg-black bg-opacity-50 text-white text-[10px] px-2 py-1 rounded-full"
+              >
+                <img
+                  src="assets/icons/singluten.png"
+                  alt="Sin Gluten"
+                  class="w-5 h-5"
+                /><span>SIN GLUTEN</span>
+              </a>
+              <a
+                href="#"
+                class="uppercase flex items-center space-x-1 flex-shrink-0 whitespace-nowrap bg-black bg-opacity-50 text-white text-[10px] px-2 py-1 rounded-full"
+              >
+                <img
+                  src="assets/icons/vegetarianos.png"
+                  alt="Vegetarianos"
+                  class="w-5 h-5"
+                /><span>VEGETARIANOS</span>
+              </a>
+              <a
+                href="#"
+                class="uppercase flex items-center space-x-1 flex-shrink-0 whitespace-nowrap bg-black bg-opacity-50 text-white text-[10px] px-2 py-1 rounded-full"
+              >
+                <img
+                  src="assets/icons/picante.png"
+                  alt="Picante"
+                  class="w-5 h-5"
+                /><span>PICANTE</span>
+              </a>
+            </div>
+            <div
+              id="indicator-right-icons"
+              class="triangle-right hidden-indicator"
+            ></div>
+          </div>
         </div>
+      </header>
 
-        <section class="categories-tags-container">
-            <h4>Categorías &amp; tags</h4>
-            <div class="categories-container">
-                <div class="category-item">ENTRADAS</div>
-                <div class="category-item">ENSALADAS</div>
-                <div class="category-item">PASTAS</div>
-                <div class="category-item">CARNES &amp; PESCADOS</div>
-                <div class="category-item">WOKS &amp; VEGGIE</div>
-                <div class="category-item">TEX-MEX</div>
-                <div class="category-item">SÁNDWICHES</div>
-                <div class="category-item">MENÚ KIDS</div>
-                <div class="category-item">SIN - TACC</div>
-                <div class="category-item">POSTRES &amp; HELADOS</div>
-                <div class="category-item">TORTAS &amp; CHEESECAKES</div>
-                <div class="category-item">CAFETERIA CLÁSICA</div>
-                <div class="category-item">GASEOSAS</div>
-                <div class="category-item">AGUAS</div>
-                <div class="category-item">JUGOS - LICUADOS</div>
-                <div class="category-item">LIMONADAS</div>
-                <div class="category-item">ENERGIZANTE</div>
-                <div class="category-item">CHOPP &amp; BEERS</div>
-            </div>
-            <div class="tags-container">
-                <div class="tag-item"><img src="tag_veg.png" alt="">VEGETARIANO</div>
-                <div class="tag-item"><img src="tag_new.png" alt="">NEW</div>
-                <div class="tag-item"><img src="tag_vegano.png" alt="">VEGANO</div>
-                <div class="tag-item"><img src="tag_kids.png" alt="">MENÚ KIDS</div>
-                <div class="tag-item"><img src="tag_celiacos.png" alt="">CELIACOS</div>
-                <div class="tag-item"><img src="tag_hh.png" alt="">HH (PRECIO PROMOCIONAL)</div>
-            </div>
-        </section>
+      <!-- Sección Hamburguesas -->
+      <hr class="border-gray-600 my-4" />
+      <h2
+        class="text-center text-[20px] font-semibold uppercase text-[#FFA500]"
+      >
+        HAMBURGUESAS
+      </h2>
 
-        <section class="horizontal-menu">
-            <h2 class="menu-title">Sugerencia del Chef</h2>
-            <article class="row">
-                <div class="description-container">
-                    <span class="product-title">.BURGER FEST.</span>
-                    <span class="product-description">Feller's Smash Burger + Stella Artois 330cc</span>
-                    <span class="product-price">$21000.00</span>
-                    <span class="more-info">+info</span>
-                </div>
-                <div class="image-container">
-                    <img src="burgerfest.jpg" alt="Menu">
-                </div>
-            </article>
-            <article class="row">
-                <div class="description-container">
-                    <span class="product-title">BURGER FEST</span>
-                    <span class="product-description">R&amp;F Mushroom Burger + Stella Artois 330 cc.</span>
-                    <span class="product-price">$21000.00</span>
-                    <span class="more-info">+info</span>
-                </div>
-                <div class="image-container">
-                    <img src="burgerfest2.jpg" alt="Menu">
-                </div>
-            </article>
-        </section>
-        <!-- Secciones adicionales irían aquí -->
-    </main>
-</body>
+      <!-- BURGER ST. ANTHONY'S -->
+      <div
+        class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
+        data-title="BURGER ST. ANTHONY'S"
+        data-desc="Black Angus 100% con queso cheddar."
+        data-price="€ 15,95"
+        data-img="assets/pictures/burger_st_anthonys.png"
+        data-tags="ENTRANTES,PRINCIPALES"
+      >
+        <div class="w-3/5 p-4">
+          <p class="uppercase text-[12px] font-bold mb-2">
+            BURGER ST. ANTHONY'S
+          </p>
+          <p class="text-sm mb-2">Black Angus 100% con queso cheddar.</p>
+          <p class="text-gold font-semibold text-lg mb-2">€ 15,95</p>
+          <p class="uppercase text-sm text-gray-600">+INFO</p>
+        </div>
+        <div class="w-2/5 bg-[#111111] min-w-0">
+          <img
+            src="assets/pictures/burger_st_anthonys.png"
+            alt="Burger"
+            class="block object-cover h-full w-full relative left-[1px]"
+          />
+        </div>
+      </div>
+
+      <!-- LA PORKIS -->
+      <div
+        class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
+        data-title="LA PORKIS"
+        data-desc="Pulled pork, queso cheddar, bacón, cebolla caramelizada, salsa BBQ."
+        data-price="€ 14,95"
+        data-img="assets/pictures/la_porkis.png"
+        data-tags="ENTRANTES"
+      >
+        <div class="w-3/5 p-4">
+          <p class="uppercase text-[12px] font-bold mb-2">LA PORKIS</p>
+          <p class="text-sm mb-2">
+            Pulled pork, queso cheddar, bacón, cebolla caramelizada, salsa BBQ.
+          </p>
+          <p class="text-gold font-semibold text-lg mb-2">€ 14,95</p>
+          <p class="uppercase text-sm text-gray-600">+INFO</p>
+        </div>
+        <div class="w-2/5 bg-[#111111] min-w-0">
+          <img
+            src="assets/pictures/la_porkis.png"
+            alt="Porkis"
+            class="block object-cover h-full w-full relative left-[1px]"
+          />
+        </div>
+      </div>
+
+      <!-- LA PARISINA -->
+      <div
+        class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
+        data-title="LA PARISINA"
+        data-desc="Doble medallón, queso roquefort, tomate confitado, nuez y rúcula."
+        data-price="€ 13,95"
+        data-img="assets/pictures/la_parisina.png"
+        data-tags="ENTRANTES"
+      >
+        <div class="w-3/5 p-4">
+          <p class="uppercase text-[12px] font-bold mb-2">LA PARISINA</p>
+          <p class="text-sm mb-2">
+            Doble medallón, queso roquefort, tomate confitado, nuez y rúcula.
+          </p>
+          <p class="text-gold font-semibold text-lg mb-2">€ 13,95</p>
+          <p class="uppercase text-sm text-gray-600">+INFO</p>
+        </div>
+        <div class="w-2/5 bg-[#111111] min-w-0">
+          <img
+            src="assets/pictures/la_parisina.png"
+            alt="Parisina"
+            class="block object-cover h-full w-full relative left-[1px]"
+          />
+        </div>
+      </div>
+
+      <!-- LA AMERICANA -->
+      <div
+        class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
+        data-title="LA AMERICANA"
+        data-desc="Doble medallón, queso cheddar, bacón, cebolla caramelizada, salsa BBQ."
+        data-price="€ 13,95"
+        data-img="assets/pictures/la_americana.png"
+        data-tags="ENTRANTES"
+      >
+        <div class="w-3/5 p-4">
+          <p class="uppercase text-[12px] font-bold mb-2">LA AMERICANA</p>
+          <p class="text-sm mb-2">
+            Doble medallón, queso cheddar, bacón, cebolla caramelizada, salsa
+            BBQ.
+          </p>
+          <p class="text-gold font-semibold text-lg mb-2">€ 13,95</p>
+          <p class="uppercase text-sm text-gray-600">+INFO</p>
+        </div>
+        <div class="w-2/5 bg-[#111111] min-w-0">
+          <img
+            src="assets/pictures/la_americana.png"
+            alt="Americana"
+            class="block object-cover h-full w-full relative left-[1px]"
+          />
+        </div>
+      </div>
+
+      <!-- CRISPY CHICKEN -->
+      <div
+        class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
+        data-title="CRISPY CHICKEN"
+        data-desc="Tomate, lechuga, bacón, cebolla crispy y queso cheddar."
+        data-price="€ 12,95"
+        data-img="assets/pictures/crispy_chicken.png"
+        data-tags="ENTRANTES"
+      >
+        <div class="w-3/5 p-4">
+          <p class="uppercase text-[12px] font-bold mb-2">CRISPY CHICKEN</p>
+          <p class="text-sm mb-2">
+            Tomate, lechuga, bacón, cebolla crispy y queso cheddar.
+          </p>
+          <p class="text-gold font-semibold text-lg mb-2">€ 12,95</p>
+          <p class="uppercase text-sm text-gray-600">+INFO</p>
+        </div>
+        <div class="w-2/5 bg-[#111111] min-w-0">
+          <img
+            src="assets/pictures/crispy_chicken.png"
+            alt="Crispy"
+            class="block object-cover h-full w-full relative left-[1px]"
+          />
+        </div>
+      </div>
+
+      <!-- LA VEGGIE -->
+      <div
+        class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
+        data-title="LA VEGGIE"
+        data-desc="Medallón de lentejas, queso edam, tomate y rúcula con mayonesa de remolacha."
+        data-price="€ 12,95"
+        data-img="assets/pictures/la_veggie.png"
+        data-tags="ENTRANTES"
+      >
+        <div class="w-3/5 p-4">
+          <p class="uppercase text-[12px] font-bold mb-2">LA VEGGIE</p>
+          <p class="text-sm mb-2">
+            Medallón de lentejas, queso edam, tomate y rúcula con mayonesa de
+            remolacha.
+          </p>
+          <p class="text-gold font-semibold text-lg mb-2">€ 12,95</p>
+          <p class="uppercase text-sm text-gray-600">+INFO</p>
+        </div>
+        <div class="w-2/5 bg-[#111111] min-w-0">
+          <img
+            src="assets/pictures/la_veggie.png"
+            alt="Veggie"
+            class="block object-cover h-full w-full relative left-[1px]"
+          />
+        </div>
+      </div>
+
+      <!-- Sección Carne y Pescado -->
+      <h2
+        class="text-center text-[20px] font-semibold uppercase text-[#FFA500] mt-8"
+      >
+        CARNE Y PESCADO
+      </h2>
+
+      <!-- ENTRECOT IRLANDÉS -->
+      <div
+        class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
+        data-title="ENTRECOT IRLANDÉS"
+        data-desc="Entrecot de Angus (250-300 g) con salsa gravy y patatas fritas."
+        data-price="€ 21,90"
+        data-img="assets/pictures/entrecot_irlandes.png"
+        data-tags="PRINCIPALES"
+      >
+        <div class="w-3/5 p-4">
+          <p class="uppercase text-[12px] font-bold mb-2">ENTRECOT IRLANDÉS</p>
+          <p class="text-sm mb-2">
+            Entrecot de Angus (250-300 g) con salsa gravy y patatas fritas.
+          </p>
+          <p class="text-gold font-semibold text-lg mb-2">€ 21,90</p>
+          <p class="uppercase text-sm text-gray-600">+INFO</p>
+        </div>
+        <div class="w-2/5 bg-[#111111] min-w-0">
+          <img
+            src="assets/pictures/entrecot_irlandes.png"
+            alt="Irlandés"
+            class="block object-cover h-full w-full relative left-[1px]"
+          />
+        </div>
+      </div>
+
+      <!-- ENTRECOT ST’ANTHONY'S -->
+      <div
+        class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
+        data-title="ENTRECOT ST’ANTHONY'S"
+        data-desc="Entrecot de Angus (250-300 g), rúcula, Grana Padano y cherry. Con patatas fritas."
+        data-price="€ 23,90"
+        data-img="assets/pictures/entrecot_st_anthonys.png"
+        data-tags="PRINCIPALES"
+      >
+        <div class="w-3/5 p-4">
+          <p class="uppercase text-[12px] font-bold mb-2">
+            ENTRECOT ST’ANTHONY'S
+          </p>
+          <p class="text-sm mb-2">
+            Entrecot de Angus (250-300 g), rúcula, Grana Padano y cherry. Con
+            patatas fritas.
+          </p>
+          <p class="text-gold font-semibold text-lg mb-2">€ 23,90</p>
+          <p class="uppercase text-sm text-gray-600">+INFO</p>
+        </div>
+        <div class="w-2/5 bg-[#111111] min-w-0">
+          <img
+            src="assets/pictures/entrecot_st_anthonys.png"
+            alt="St’Anthony"
+            class="block object-cover h-full w-full relative left-[1px]"
+          />
+        </div>
+      </div>
+
+      <!-- FISH AND CHIPS -->
+      <div
+        class="bg-white rounded-xl w-[90%] mx-auto mt-4 flex overflow-hidden shadow-lg cursor-pointer"
+        data-title="FISH AND CHIPS"
+        data-desc="Bacalao rebozado con patatas."
+        data-price="€ 14,95"
+        data-img="assets/pictures/fish_and_chips.png"
+        data-tags="PRINCIPALES"
+      >
+        <div class="w-3/5 p-4">
+          <p class="uppercase text-[12px] font-bold mb-2">FISH AND CHIPS</p>
+          <p class="text-sm mb-2">Bacalao rebozado con patatas.</p>
+          <p class="text-gold font-semibold text-lg mb-2">€ 14,95</p>
+          <p class="uppercase text-sm text-gray-600">+INFO</p>
+        </div>
+        <div class="w-2/5 bg-[#111111] min-w-0">
+          <img
+            src="assets/pictures/fish_and_chips.png"
+            alt="Fish"
+            class="block object-cover h-full w-full relative left-[1px]"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal overlay reutilizable -->
+    <div
+      id="modal-overlay"
+      class="fixed inset-0 hidden items-center justify-center modal-backdrop z-50"
+    >
+      <div
+        class="w-[90%] max-w-[640px] rounded-xl overflow-hidden relative border-2 border-gray-500"
+      >
+        <!-- Imagen ampliada -->
+        <div class="w-full h-[240px] relative">
+          <img
+            id="modal-img"
+            src=""
+            alt=""
+            class="block object-cover w-full h-full relative left-[1px]"
+          />
+          <button
+            id="modal-close-button"
+            class="absolute top-2 right-2 bg-black bg-opacity-50 rounded-full w-8 h-8 flex items-center justify-center text-white text-2xl leading-none"
+            aria-label="Cerrar"
+          >
+            &times;
+          </button>
+        </div>
+        <!-- Texto -->
+        <div class="bg-[#111111] p-6 text-white">
+          <h3
+            id="modal-title"
+            class="uppercase text-xl font-semibold mb-2"
+          ></h3>
+          <p id="modal-desc" class="text-sm mb-4"></p>
+          <p id="modal-price" class="text-gold font-bold text-2xl mb-4"></p>
+          <div id="modal-tags" class="flex flex-wrap gap-2 mb-4"></div>
+          <p id="modal-detail" class="text-[13px] leading-relaxed"></p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const modal = document.getElementById("modal-overlay");
+        const img = document.getElementById("modal-img");
+        const title = document.getElementById("modal-title");
+        const desc = document.getElementById("modal-desc");
+        const price = document.getElementById("modal-price");
+        const tagsContainer = document.getElementById("modal-tags");
+
+        function updateIndicators(container, leftInd, rightInd) {
+          if (container.scrollLeft > 0) {
+            leftInd.classList.remove("hidden-indicator");
+            leftInd.classList.add("active-indicator");
+          } else {
+            leftInd.classList.add("hidden-indicator");
+          }
+          if (
+            container.scrollLeft + container.clientWidth >=
+            container.scrollWidth
+          ) {
+            rightInd.classList.add("hidden-indicator");
+          } else {
+            rightInd.classList.remove("hidden-indicator");
+            rightInd.classList.add("active-indicator");
+          }
+        }
+
+        const tagsContainerEl = document.getElementById("tags-container");
+        const iconsContainerEl = document.getElementById("icons-container");
+        const leftTags = document.getElementById("indicator-left-tags");
+        const rightTags = document.getElementById("indicator-right-tags");
+        const leftIcons = document.getElementById("indicator-left-icons");
+        const rightIcons = document.getElementById("indicator-right-icons");
+
+        [tagsContainerEl, iconsContainerEl].forEach((container, idx) => {
+          const left = idx === 0 ? leftTags : leftIcons;
+          const right = idx === 0 ? rightTags : rightIcons;
+          container.addEventListener("scroll", () =>
+            updateIndicators(container, left, right)
+          );
+          updateIndicators(container, left, right);
+        });
+        leftTags.addEventListener("click", () =>
+          tagsContainerEl.scrollBy({ left: -100, behavior: "smooth" })
+        );
+        rightTags.addEventListener("click", () =>
+          tagsContainerEl.scrollBy({ left: 100, behavior: "smooth" })
+        );
+        leftIcons.addEventListener("click", () =>
+          iconsContainerEl.scrollBy({ left: -100, behavior: "smooth" })
+        );
+        rightIcons.addEventListener("click", () =>
+          iconsContainerEl.scrollBy({ left: 100, behavior: "smooth" })
+        );
+
+        document.querySelectorAll("[data-title]").forEach((card) => {
+          card.addEventListener("click", () => {
+            img.src = card.dataset.img;
+            img.alt = card.dataset.title;
+            title.textContent = card.dataset.title;
+            desc.textContent = card.dataset.desc;
+            price.textContent = card.dataset.price;
+            tagsContainer.innerHTML = "";
+            card.dataset.tags.split(",").forEach((t) => {
+              const span = document.createElement("span");
+              span.className =
+                "uppercase bg-white bg-opacity-70 text-black text-[10px] px-3 py-1 rounded-full";
+              span.textContent = t;
+              tagsContainer.appendChild(span);
+            });
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+          });
+        });
+
+        document.getElementById("modal-close-button").onclick = () => {
+          modal.classList.add("hidden");
+          modal.classList.remove("flex");
+        };
+      });
+    </script>
+  </body>
 </html>
