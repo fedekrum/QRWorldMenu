@@ -75,7 +75,7 @@
   </head>
 
   <body class="bg-[#111111] flex justify-center">
-    <div class="w-full max-w-[640px] min-w-[375px] pb-8">
+    <div id="menu-container" class="w-full max-w-[640px] min-w-[375px] pb-8">
       <!-- Encabezado -->
       <header class="relative w-full h-[224px]">
         <div
@@ -593,24 +593,25 @@
           iconsContainerEl.scrollBy({ left: 100, behavior: "smooth" })
         );
 
-        document.querySelectorAll("[data-title]").forEach((card) => {
-          card.addEventListener("click", () => {
-            img.src = card.dataset.img;
-            img.alt = card.dataset.title;
-            title.textContent = card.dataset.title;
-            desc.textContent = card.dataset.desc;
-            price.textContent = card.dataset.price;
-            tagsContainer.innerHTML = "";
-            card.dataset.tags.split(",").forEach((t) => {
-              const span = document.createElement("span");
-              span.className =
-                "uppercase bg-white bg-opacity-70 text-black text-[10px] px-3 py-1 rounded-full";
-              span.textContent = t;
-              tagsContainer.appendChild(span);
-            });
-            modal.classList.remove("hidden");
-            modal.classList.add("flex");
+        const menu = document.getElementById("menu-container");
+        menu.addEventListener("click", (e) => {
+          const card = e.target.closest("[data-title]");
+          if (!card) return;
+          img.src = card.dataset.img;
+          img.alt = card.dataset.title;
+          title.textContent = card.dataset.title;
+          desc.textContent = card.dataset.desc;
+          price.textContent = card.dataset.price;
+          tagsContainer.innerHTML = "";
+          card.dataset.tags.split(",").forEach((t) => {
+            const span = document.createElement("span");
+            span.className =
+              "uppercase bg-white bg-opacity-70 text-black text-[10px] px-3 py-1 rounded-full";
+            span.textContent = t;
+            tagsContainer.appendChild(span);
           });
+          modal.classList.remove("hidden");
+          modal.classList.add("flex");
         });
 
         document.getElementById("modal-close-button").onclick = () => {
